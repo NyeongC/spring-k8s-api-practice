@@ -12,7 +12,11 @@ public class HelloController {
 
     @GetMapping("/hello")
     public ResponseEntity<Map<String, String>> hello() {
-        return ResponseEntity.ok(Map.of("message", "Hello from Kubernetes!"));
+        String podName = System.getenv("POD_NAME");
+        return ResponseEntity.ok(Map.of(
+                "message", "Hello from Kubernetes!",
+                "pod", podName != null ? podName : "unknown"
+        ));
     }
 
     // CPU 부하 테스트용: seconds 동안 모든 코어를 태움
